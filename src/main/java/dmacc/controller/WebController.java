@@ -42,10 +42,9 @@ public class WebController {
 	UserSignInLogRepo userSignInLogRepo;
 	// global Member instance
 	Member current = new Member();
-	Rental rent = new Rental();
 	
 	@GetMapping("viewAllTools")
-	public String viewAllTools(Model model) {		
+	public String viewAllTools(Model model) {
 		model.addAttribute("tool", toolRepo.findAll());
 		model.addAttribute("memberInfo", current);
 		//model.addAttribute("userSignInLog", userSignInLogRepo.findFirstByOrderByCurrentTimeStampDesc());
@@ -83,18 +82,28 @@ public class WebController {
 			return "login";
 		}
 		else {
-			return "signUp";
+			return signUp(model);
 		}
 	}
-	
+	/**
+	 * return to login.html
+	 * UPDATE: by Ben 12/10/2020
+	 * @param model
+	 * @return login.html
+	 */
+	@GetMapping("/login")
+	public String login(Model model) {
+		model.addAttribute("memberInfo", current);
+		return "login";
+	}
 	@GetMapping("/borrow/{id}/{member}")
 	public String reviseTool(@PathVariable("id")long tId, @PathVariable("member")long mId, Model model) {
 		Tool t = toolRepo.findById(tId).orElse(null);
 		Member m = memberRepo.findById(mId).orElse(null);
 		if(m == null) {
-			return "signUp";
+			return signUp(model);
 		} else {
-			rent = new Rental();
+			Rental rent = new Rental();
 			rent.setToolId(t);
 			rent.setMemberId(m);
 			rent.setCheckedOut(new Date());
@@ -112,21 +121,23 @@ public class WebController {
 	 * @param model
 	 * @return viewMyTools.html
 	 */
-	@GetMapping({"/viewMyTools" })
-	public String viewMyTools(Model model) {	
-		/*
-		UserSignInLog newestTimeStamp;
-		Member m;
-		newestTimeStamp = userSignInLogRepo.findFirstByOrderByCurrentTimeStampDesc();
-		m = newestTimeStamp.getMemberId();
-		*/
-		// Update: = 12/01/2020 by Ben Miner - change model attribute to current member
+	@GetMapping({"viewMyTools" })
+	public String viewMyTools(Model model) {
+		// Update: 12/01/2020 by Ben Miner - change model attribute to current member
 		model.addAttribute("memberInfo", current);
 		model.addAttribute("rental", rentalRepo.findByMemberId(current));
 		return "viewMyTools";
 	}
 	
 	//Added by Chadwick for return feature on viewMytools
+	/**
+	 * returnTool : return feature on viewMyTools
+	 * UPDATED: by Chadwick
+	 * @param rId
+	 * @param model
+	 * @return to viewMyTools
+	 */
+	// UPDATE: 12/03/2020 by Ben edits to edit @param rId and add repo save calls
 	@GetMapping("/return/{id}")
 	public String returnTool(@PathVariable("id")long rId, Model model) {
 		Rental r = rentalRepo.findById(rId).orElse(null);
@@ -138,5 +149,52 @@ public class WebController {
 		return viewMyTools(model);
 	}
 	
+	//Added by Eli for new member sign up
+	@PostMapping("/signUp")
+	public String signUp(@RequestParam(name="first") String first, @RequestParam(name="last") String last, @RequestParam(name="address") String address, @RequestParam(name="phone") String phone, @RequestParam(name="username") String username, @RequestParam(name="password") String password, Model model) {
+		Member m = new Member();
+		m.setFirst(first);
+		m.setLast(last);
+		m.setAddress(address);
+		m.setPhone(phone);
+		m.setUsername(username);
+		m.setPassword(password);
+		memberRepo.save(m);
+		current = memberRepo.findByusernameAndPassword(username, password);
+		UserSignInLog u = new UserSignInLog();
+		u.setMemberId(current);
+		userSignInLogRepo.save(u);
+		model.addAttribute("memberInfo", current);
+		return "login";
+	}
+	@GetMapping("/edit")
+	public String editMember(Model model) {
+		model.addAttribute("memberInfo", current);
+		return "signUp";
+	}
+	@PostMapping("/update/{id}")
+	public String updateMember(@RequestParam(name="first") String first, @RequestParam(name="last") String last, @RequestParam(name="address") String address, @RequestParam(name="phone") String phone, @RequestParam(name="username") String username, @RequestParam(name="password") String password, Model model) {
+		current.setFirst(first);
+		current.setLast(last);
+		current.setAddress(address);
+		current.setPhone(phone);
+		current.setUsername(username);
+		current.setPassword(password);
+		memberRepo.save(current);
+		model.addAttribute("memberInfo", current);
+		return "login";
+	}
+	@GetMapping("/signUp")
+	public String signUp(Model model) {
+		Member m = new Member();
+		model.addAttribute("memberInfo", m);
+		return "signUp";
+	}
+	
+	@GetMapping("/logOut")
+	public String logOut(Model model) {
+		current = new Member();
+		return "index";
+	}
 	
 }

@@ -1,24 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Tool Library: Membership Form</title>
 	<!--*************************************************
- 		* author: 	
+ 		* author: 	Eli Lueders
  		* course:	CIS 171 Java II
- 		* date:	
+ 		* date:		3 Dec 2020
  		* project:	ToolLibrary - group project
  		* file:		signUp.html
  		* summary:	
  		************************************************-->
  		
  	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="../style.css" type ="text/css" >
+	<link rel="stylesheet" href="/style.css" type ="text/css" >
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 <body>
-	<h1>signUp.html</h1>
+	<div class="banner"><a href="/viewAllTools"><img src="/banner3.jpg" alt="Tool Library Logo" style="width: 90vw"></a></div>
+	<p style="font-size: 12px">click banner to view tool library</p>
+	<div th:if="${memberInfo.first}">
+		<h2>Edit Info for <span th:text="${memberInfo.username}"></span></h2>
+		<a href="/login">Profile</a> | <a href="/viewMyTools">My History</a> | <a href="/logOut">Sign Out</a><br />
+	</div>
+	<div th:unless="${memberInfo.username}">
+		<h1><a href="/">Sign Up</a></h1>
+		<p><em>Already a member? </em><a href="/">Sign In</a>!</p>
+	</div>
+	
+	<!-- signUp form added by Eli Lueders 3 Dec 2020 -->
+	<form th:object="${memberInfo}" th:action="@{update/{id}(id=${memberInfo.memberId})}" method=POST> <!--autocomplete="off"-->
+		<input th:type="hidden" th:feild="*{memberId}">
+		<label>First Name</label><input type="text" name="first" th:field= "*{first}">
+		<label>Last Name</label><input type="text" name="last" th:field= "*{last}">
+		<br/>
+		<label>Address</label><input type="text" name="address" th:field= "*{address}">
+		<label>Phone Number</label><input type="text" name="phone" th:field= "*{phone}">
+		<br/>
+		<label>Create User Name</label><input type="text" name="username" th:field= "*{username}">
+		<label>Create Password</label><input type="text" name="password" th:field="*{password}">
+		<br/>
+		<!--radio buttons added by Brogan  -->
+		<!-- Eli - change name attributes to 'level' so you can only select one
+			and wrapped form in div for css styling -->
+		<label>Select your membership type:</label>
+		<div class="radio">
+		<input type="radio" id="basic" name="level" value="basic">
+		<label for="basic">basic</label>
+		<input type="radio" id="silver" name="level" value="silver">
+		<label for="silver">silver</label>
+		<input type="radio" id="gold" name="level" value="gold">
+		<label for="gold">basic</label>
+		<input type="radio" id="premium" name="level" value="premium">
+		<label for="premium">premium</label><br>
+		</div>
+		<button type="submit">Sign Up</button><button type="reset">Clear Form</button>
+	</form>
+	
+	
+<footer class="page-footer font-small pt-4">
+  <div class="container-fluid text-center text-md-left">
+    <div class="row">
+      <div class="col">
+        <h5 class="text-uppercase">The Tool Library,</h5>
+        <p>thanks you for being a member</p>
+      </div>
+      <hr class="clearfix w-100 d-md-none pb-3">
+      <div class="col">
+        <h5 class="text-uppercase">Contact Us</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            515-234-1234
+          </li>
+          <li>
+            thetoollib@gmail.com
+          </li>
+          <li>
+            <a href="#" class="fa fa-facebook"></a>
+          </li>
+          <li>
+            <a href="#" class="fa fa-twitter"></a>
+          </li>
+        </ul>
+      </div>
+      <div class="col">
+        <h5 class="text-uppercase">Download Links</h5>
+        <ul class="list-unstyled">
+          <li>
+            <a href="../FAQ.pdf" type="application/pdf">FAQ</a>
+          </li>
+          <li>  	
+			<a href="../application.pdf" type="application/pdf">Membership Application</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    The Tool Library
+  </div>
+</footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
+
 </html>

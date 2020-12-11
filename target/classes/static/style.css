@@ -1,10 +1,82 @@
-body{
-	margin:3%;
-}
-h1{
-	text-align:center;
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: black;
+	color: white;
 }
 
-.logged_in_as_display_area{
-	text-align:right;
+form {
+	margin: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	margin: 1rem 0 0 0;
+	border-radius: 5px;
+}
+
+button {
+	margin: 1rem;
+	padding: .25rem 1rem;
+	border-radius: 5px;
+	background-color: white;
+	color: black;
+}
+
+a {
+	text-decoration: none;
+	color: white
+}
+
+a:visted {
+	color: black;
+}
+
+a:hover {
+	color: white;
+}
+
+.table {
+	background-color: white;
+	border-radius: 5px;
+}
+
+.table thead th {
+	border: none;
+}
+
+.table tbody tr:nth-child(odd) {
+	background-color: #efefef;
+}
+
+.table a {
+	background-color: black;
+	padding: .25rem .5rem;
+	border: 2px solid black;
+	border-radius: 5px;
+}
+
+.table a:hover {
+	background-color: white;
+	color: black;
+	text-decoration: none;
+}
+
+.logged_in_as_display_area {
+	width: 90%;
+	text-align: right;
+}
+
+.search {
+	width: 90%;
+}
+
+.search form {
+	flex-direction: row;
+	margin-bottom: -15px;
+	align-items: center;
+	justify-content: center; footer { background-color : #807061;
+	width: 100%;
 }

@@ -1,58 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 	<meta charset="UTF-8">
-	<title>Tool Library: Profile</title>
+	<title>Tool Library: Sign In</title>
 	<!--*************************************************
- 		* author: 	Ben Miner
  		* course:	CIS 171 Java II
- 		* date:		11/30/2020
+ 		* date:		12/10/2020
  		* project:	ToolLibrary - group project
- 		* file:		login.html
- 		* summary:	view member options
+ 		* file:		index.html
+ 		* edits:	
+ 			 Chadwick Burgett - pdf files added source material- https://gdmhabitat.org/restore/tool/ and http://www.thetoollibrary.org/
+			 Eli - moved FAQ and app to footer
+			 Eli - header img now link to view all tools
  		************************************************-->
  	
+
  	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="/style.css" type ="text/css" >
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 </head>
 <body>
-	<span th:hidden="${memberInfo.memberId}"></span>
 	<div class="banner"><a href="/viewAllTools"><img src="/banner3.jpg" alt="Tool Library Logo" style="width: 90vw"></a></div>
 	<p style="font-size: 12px">click banner to view tool library</p>
-	<h2><span th:text="${memberInfo.username}"></span>'s Profile</h2>
-	<a href="/edit">Update Profile</a>
-	<a href="/viewMyTools">My History</a>  
-	<a href="/logOut">Sign Out</a><br />
-	
-	<table class="table">
-	
-  	<tbody>
-		<tr>
-			<td>Name: </td>
-			<td th:text="${memberInfo.first}+' '+${memberInfo.last} " /> 
-		</tr>
-		<tr>
-			<td>Address: </td>
-			<td th:text="${memberInfo.address} " /> 
-		</tr>
-		<tr>
-			<td>Phone: </td>
-			<td th:text="${memberInfo.phone} " /> 
-		</tr>
-		<tr>
-			<td>Username: </td>
-			<td th:text="${memberInfo.username} " /> 
-		</tr>
-		<tr>
-			<td>Password: </td>
-			<td>******** </td>
-		</tr>
-	</tbody>
-	</table>
-	
-	
+	<!-- Login form updated 11/29/2020 by Ben Miner -->
+	<form action="/login" method="post">
+		<label>User Name</label><input type="text" name="username">
+		<label>Password</label><input type="password" name="password">
+		<button type="submit">submit</button>
+	</form>
+	<p><em>Not a member yet? </em><a href="/signUp">Sign Up</a>!</p>
+
+
+
+
 <footer class="page-footer font-small pt-4">
   <div class="container-fluid text-center text-md-left">
     <div class="row">
